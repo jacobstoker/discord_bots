@@ -4,6 +4,11 @@ import json
 from dotenv import load_dotenv
 import os
 
+
+load_dotenv()
+BOT_TOKEN = os.getenv("EMOJI_REACT_TOKEN")
+ADMIN_USER_ID = os.getenv("ADMIN_USER_ID")
+
 with open("user_emojis.json", "r") as file:
     user_emojis = json.load(file)
 
@@ -32,6 +37,9 @@ async def on_message(message):
 
 @bot.command(name="add_react")
 async def add_react(ctx, user: discord.User, emoji: str):
+    if str(ctx.author.id) != ADMIN_USER_ID:
+        await ctx.send("You don't have permission to use this command.")
+        return
     user_id = str(user.id)
     user_emojis[user_id] = emoji
 
@@ -41,8 +49,4 @@ async def add_react(ctx, user: discord.User, emoji: str):
     await ctx.send(f"Reaction added for {user.mention}: {emoji}")
 
 
-# Run the bot with the token
-load_dotenv()
-bot_token = os.getenv("EMOJI_REACT_TOKEN")
-print(bot_token)
-bot.run(bot_token)
+bot.run(BOT_TOKEN)
