@@ -49,7 +49,6 @@ async def reroll_perks_command(ctx, *reroll_values):
 if __name__ == "__main__":
     load_dotenv()
     bot_token = os.getenv("RANDOM_PERKS_TOKEN")
-    print(bot_token)
     if bot_token is None:
         print("ERROR: No token found in .env")
     update_perks_from_wiki()
